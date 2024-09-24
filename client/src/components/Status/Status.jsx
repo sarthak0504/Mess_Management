@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function About() {
+export default function Staus() {
     return (
         <div className="min-h-screen bg-gray-100">
           {/* Status Section */}

@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 import Home from './components/Home/Home.jsx'
-import About from './components/About/About.jsx'
+import About from './components/Status/Status.jsx'
 import Contact from './components/Contact/Contact.jsx'
 import User from './components/User/User.jsx'
 import './App.css';
@@ -12,6 +12,7 @@ import Registration from './components/Registration/Registration.jsx';
 import LoginPage from './components/Login/Login.jsx';
 import MenuInventory from './components/MenuInventory/MenuInventory.jsx';
 import UserMenu from './components/MenuInventory/MenuInventory_user.jsx';
+import Staus from './components/Status/Status.jsx';
 
 function App() {
   return (
@@ -19,7 +20,7 @@ function App() {
       <Routes>
         <Route path='/' element={<Layout />}>
           <Route index element={<Home />} />
-          <Route path='about' element={<About />} />
+          <Route path='status' element={<Staus />} />
           <Route path='subscription' element={<Subscription />} />
           <Route path='feedback' element={<Feedback />} />
           <Route path='register' element={<Registration />} />
