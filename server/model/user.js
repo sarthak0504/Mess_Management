@@ -7,32 +7,9 @@ const UserSchema = new mongoose.Schema({
   username: { type: String, required: true },
   password: { type: String, required: true },
   role: { type: String, required: true },
-  studentDetails: {
-    studentId: { type: String },
-    department: { type: String },
-    year: { type: String }
-  },
-  facultyDetails: {
-    facultyId: { type: String },
-    facultyDept: { type: String },
-    designation: { type: String }
-  },
-  managerDetails: {
-    managerId: { type: String },
-    shift: { type: String },
-    experience: { type: String }
-  },
-  staffDetails: {
-    staffId: { type: String },
-    jobTitle: { type: String },
-    staffShift: { type: String }
-  }
+  tokens:{type:Number},
+  managerId: { type: mongoose.Schema.Types.ObjectId, ref: 'Manager' },
 });
-UserSchema.pre('save', async function (next) {
-    if (!this.isModified('password')) return next();
-    const salt = await bcrypt.genSalt(10);
-    this.password = await bcrypt.hash(this.password, salt);
-    next();
-  });
+
 
 module.exports = mongoose.model('User', UserSchema);
