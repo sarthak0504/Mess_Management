@@ -2,41 +2,45 @@
 
 const express = require('express');
 const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
 const cors = require('cors');
-const { config } = require('dotenv');
+const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
-const { connectDB } = require('./db');
+const { config } = require('dotenv');
+const userRoute = require('./routes/userRoute'); // Ensure this path is correct
+const managerRoute = require('./routes/managerRoute'); // Ensure this path is correct
 
+// Initialize express app
 const app = express();
-app.use(cors());
 
-
+// Load environment variables from .env file
 config();
 
+// Middleware setup
+app.use(cors());
 app.use(bodyParser.json({ limit: '50mb' }));
-
-// Increase the limit for URL-encoded requests
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
+app.use(cookieParser());
 
-
-mongoose.connect('mongodb+srv://baxidaksh2004:dyJ7ahVnmgpOSV8M@cluster1.ifj4u.mongodb.net/admin', {
+// Connect to MongoDB
+const dbURI = 'mongodb+srv://baxidaksh2004:dyJ7ahVnmgpOSV8M@cluster1.ifj4u.mongodb.net'; // Use env variable or fallback
+mongoose.connect(dbURI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-}).then(() => console.log('MongoDB connected'))
-  .catch((err) => console.log(err));
+})
+  .then(() => console.log('MongoDB connected'))
+  .catch((err) => console.error('MongoDB connection error:', err));
 
-
-app.use(cookieParser())
-
-// Routes
-app.get("/", (req,res)=>{
+// Default route
+app.get("/", (req, res) => {
   res.json("Welcome to the mess backend");
 });
 
-
+// Register routes
+app.use('/api/user', userRoute);
+app.use('/api/manager', managerRoute);
 
 // Start the server
-app.listen(3000, () => {
-  console.log(`Server is running on port 3000`);
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });

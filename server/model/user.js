@@ -6,9 +6,9 @@ const UserSchema = new mongoose.Schema({
   phone: { type: String, required: true },
   username: { type: String, required: true },
   password: { type: String, required: true },
-  role: { type: String, required: true },
   tokens:{type:Number},
   managerId: { type: mongoose.Schema.Types.ObjectId, ref: 'Manager' },
+  feedbackId:{ type: mongoose.Schema.Types.ObjectId, ref: 'Feedback'}
 });
 
 
