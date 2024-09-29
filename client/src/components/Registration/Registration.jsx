@@ -9,31 +9,11 @@ const Registration = () => {
     username: '',
     password: '',
     confirmPassword: '',
-    role: '',
-    studentDetails: {
-      studentId: '',
-      department: '',
-      year: ''
-    },
-    facultyDetails: {
-      facultyId: '',
-      facultyDept: '',
-      designation: ''
-    },
-    managerDetails: {
-      managerId: '',
-      shift: '',
-      experience: ''
-    },
-    staffDetails: {
-      staffId: '',
-      jobTitle: '',
-      staffShift: ''
-    }
+    role: ''
   };
 
   const [formData, setFormData] = useState(initialFormData);
-  const [showDetails, setShowDetails] = useState(false);
+ 
 
   const handleRoleChange = (e) => {
     const { value } = e.target;
@@ -66,7 +46,7 @@ const Registration = () => {
     if (formData.role !== 'manager') delete filteredFormData.managerDetails;
     if (formData.role !== 'staff') delete filteredFormData.staffDetails;
 
-    axios.post('http://localhost:5000/api/user/registration', filteredFormData)
+    axios.post('http://localhost:3000/api/user/', filteredFormData)
       .then((response) => {
         alert('Registration successful');
         setFormData(initialFormData); // Reset form after successful registration
@@ -171,162 +151,7 @@ const Registration = () => {
             </select>
           </div>
 
-          {showDetails && (
-            <div className="role-details-dropdown mb-4">
-              {formData.role === 'student' && (
-                <div>
-                  <div className="mb-4">
-                    <label htmlFor="studentId" className="block text-sm font-semibold text-gray-700">Student ID Number:</label>
-                    <input
-                      type="text"
-                      id="studentId"
-                      name="studentId"
-                      value={formData.studentDetails.studentId}
-                      onChange={(e) => handleDetailsChange('studentDetails', 'studentId', e.target.value)}
-                      className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                    />
-                  </div>
-                  <div className="mb-4">
-                    <label htmlFor="department" className="block text-sm font-semibold text-gray-700">Department/Program:</label>
-                    <input
-                      type="text"
-                      id="department"
-                      name="department"
-                      value={formData.studentDetails.department}
-                      onChange={(e) => handleDetailsChange('studentDetails', 'department', e.target.value)}
-                      className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                    />
-                  </div>
-                  <div className="mb-4">
-                    <label htmlFor="year" className="block text-sm font-semibold text-gray-700">Year of Study:</label>
-                    <input
-                      type="text"
-                      id="year"
-                      name="year"
-                      value={formData.studentDetails.year}
-                      onChange={(e) => handleDetailsChange('studentDetails', 'year', e.target.value)}
-                      className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                    />
-                  </div>
-                </div>
-              )}
-
-              {formData.role === 'faculty' && (
-                <div>
-                  <div className="mb-4">
-                    <label htmlFor="facultyId" className="block text-sm font-semibold text-gray-700">Faculty ID Number:</label>
-                    <input
-                      type="text"
-                      id="facultyId"
-                      name="facultyId"
-                      value={formData.facultyDetails.facultyId}
-                      onChange={(e) => handleDetailsChange('facultyDetails', 'facultyId', e.target.value)}
-                      className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                    />
-                  </div>
-                  <div className="mb-4">
-                    <label htmlFor="facultyDept" className="block text-sm font-semibold text-gray-700">Department:</label>
-                    <input
-                      type="text"
-                      id="facultyDept"
-                      name="facultyDept"
-                      value={formData.facultyDetails.facultyDept}
-                      onChange={(e) => handleDetailsChange('facultyDetails', 'facultyDept', e.target.value)}
-                      className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                    />
-                  </div>
-                  <div className="mb-4">
-                    <label htmlFor="designation" className="block text-sm font-semibold text-gray-700">Designation:</label>
-                    <input
-                      type="text"
-                      id="designation"
-                      name="designation"
-                      value={formData.facultyDetails.designation}
-                      onChange={(e) => handleDetailsChange('facultyDetails', 'designation', e.target.value)}
-                      className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                    />
-                  </div>
-                </div>
-              )}
-
-              {formData.role === 'manager' && (
-                <div>
-                  <div className="mb-4">
-                    <label htmlFor="managerId" className="block text-sm font-semibold text-gray-700">Manager ID Number:</label>
-                    <input
-                      type="text"
-                      id="managerId"
-                      name="managerId"
-                      value={formData.managerDetails.managerId}
-                      onChange={(e) => handleDetailsChange('managerDetails', 'managerId', e.target.value)}
-                      className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                    />
-                  </div>
-                  <div className="mb-4">
-                    <label htmlFor="shift" className="block text-sm font-semibold text-gray-700">Shift:</label>
-                    <input
-                      type="text"
-                      id="shift"
-                      name="shift"
-                      value={formData.managerDetails.shift}
-                      onChange={(e) => handleDetailsChange('managerDetails', 'shift', e.target.value)}
-                      className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                    />
-                  </div>
-                  <div className="mb-4">
-                    <label htmlFor="experience" className="block text-sm font-semibold text-gray-700">Experience:</label>
-                    <input
-                      type="text"
-                      id="experience"
-                      name="experience"
-                      value={formData.managerDetails.experience}
-                      onChange={(e) => handleDetailsChange('managerDetails', 'experience', e.target.value)}
-                      className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                    />
-                  </div>
-                </div>
-              )}
-
-              {formData.role === 'staff' && (
-                <div>
-                  <div className="mb-4">
-                    <label htmlFor="staffId" className="block text-sm font-semibold text-gray-700">Staff ID Number:</label>
-                    <input
-                      type="text"
-                      id="staffId"
-                      name="staffId"
-                      value={formData.staffDetails.staffId}
-                      onChange={(e) => handleDetailsChange('staffDetails', 'staffId', e.target.value)}
-                      className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                    />
-                  </div>
-                  <div className="mb-4">
-                    <label htmlFor="jobTitle" className="block text-sm font-semibold text-gray-700">Job Title:</label>
-                    <input
-                      type="text"
-                      id="jobTitle"
-                      name="jobTitle"
-                      value={formData.staffDetails.jobTitle}
-                      onChange={(e) => handleDetailsChange('staffDetails', 'jobTitle', e.target.value)}
-                      className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                    />
-                  </div>
-                  <div className="mb-4">
-                    <label htmlFor="staffShift" className="block text-sm font-semibold text-gray-700">Shift:</label>
-                    <input
-                      type="text"
-                      id="staffShift"
-                      name="staffShift"
-                      value={formData.staffDetails.staffShift}
-                      onChange={(e) => handleDetailsChange('staffDetails', 'staffShift', e.target.value)}
-                      className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                    />
-                  </div>
-                </div>
-              )}
-            </div>
-          )}
-
+          
           <button type="submit" className="w-full bg-indigo-600 text-white p-2 rounded-md hover:bg-indigo-500">Register</button>
         </form>
       </div>

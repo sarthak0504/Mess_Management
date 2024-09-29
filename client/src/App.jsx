@@ -20,14 +20,14 @@ function App() {
       <Routes>
         <Route path='/' element={<Layout />}>
           <Route index element={<Home />} />
-          <Route path='status' element={<Staus />} />
-          <Route path='subscription' element={<Subscription />} />
-          <Route path='feedback' element={<Feedback />} />
-          <Route path='register' element={<Registration />} />
-          <Route path='login' element={<LoginPage />} />
-          <Route path='menu_inventory' element={<MenuInventory />} />
-          <Route path='menu_inventory_user' element={<UserMenu />} />
-          <Route path='user/:userid' element={<User />} />
+          <Route path='/status' element={<Staus />} />
+          <Route path='/subscription' element={<Subscription />} />
+          <Route path='/feedback' element={<Feedback />} />
+          <Route path='/register' element={<Registration />} />
+          <Route path='/login' element={<LoginPage />} />
+          <Route path='/menu_inventory' element={<MenuInventory />} />
+          <Route path='/menu_inventory_user' element={<UserMenu />} />
+          <Route path='/user/:userid' element={<User />} />
         </Route>
       </Routes>
     </Router>
