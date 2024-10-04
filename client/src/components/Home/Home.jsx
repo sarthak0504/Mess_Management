@@ -1,18 +1,26 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import { useAuth } from '../../context/AuthContext'; // Import the useAuth hook
+import axios from 'axios'; // Make sure to import axios
 
 const Home = () => {
-  const [user, setUser] = useState(null);
+  const { currentUser } = useAuth(); 
+  const [foodItems, setFoodItems] = useState([]); // State to hold food items
 
-  // Effect to fetch user data (without jwt-decode logic for now)
+  // Fetch food items when the component mounts
   useEffect(() => {
-    const fetchUser = async () => {
-      // Assuming user data is already available or token is not needed
-      const response = await axios.get(`http://localhost:5000/api/user`);
-      setUser(response.data);
+    const fetchFood = async () => {
+      try {
+        const response = await axios.get('http://localhost:3000/api/messStatus');
+        // Extract the food array from the response (assuming you want the first object)
+        const foodArray = response.data.length > 0 ? response.data[0].food : [];
+        setFoodItems(foodArray); // Set the food items state
+      } catch (error) {
+        console.error("Error fetching food data:", error);
+      }
     };
-    fetchUser();
-  }, []);
+
+    fetchFood(); // Call the fetch function
+  }, []); // Empty dependency array to run only once on mount
 
   return (
     <div className="flex flex-col items-center">
@@ -35,15 +43,24 @@ const Home = () => {
       <section className="mt-10 mb-10 flex flex-wrap justify-center gap-6">
         <div className="bg-white p-6 rounded-lg shadow-md w-80 text-center">
           <h2 className="text-xl font-semibold mb-2">View Menu</h2>
-          <p className="text-gray-600">Access daily and weekly menus with ease.</p>
+          <ul className="text-gray-600">
+            {foodItems.length > 0 ? (
+              foodItems.map((item, index) => (
+                <li key={index}>{item}</li> // Map over the food array and display each item
+              ))
+            ) : (
+              <li>No food available</li> // Fallback if no food items are available
+            )}
+          </ul>
         </div>
         <div className="bg-white p-6 rounded-lg shadow-md w-80 text-center">
           <h2 className="text-xl font-semibold mb-2">Thali Token</h2>
+          <h2 className="text-xl font-semibold mb-2">Your Tokens: {currentUser.tokens}</h2>
           <p className="text-gray-600">Get your meal token digitally, no hassle.</p>
         </div>
         <div className="bg-white p-6 rounded-lg shadow-md w-80 text-center">
           <h2 className="text-xl font-semibold mb-2">Subscription Plans</h2>
-          <p className="text-gray-600">Choose the best meal plan that suits you.</p>
+          <h2 className="text-xl font-semibold mb-2">You have 1 month Plan</h2>
         </div>
         <div className="bg-white p-6 rounded-lg shadow-md w-80 text-center">
           <h2 className="text-xl font-semibold mb-2">Feedback</h2>

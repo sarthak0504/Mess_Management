@@ -8,7 +8,7 @@ const cookieParser = require('cookie-parser');
 const { config } = require('dotenv');
 const userRoute = require('./routes/userRoute'); // Ensure this path is correct
 const managerRoute = require('./routes/managerRoute'); // Ensure this path is correct
-
+const messStatusRoutes = require('./routes/messStatusRoutes');
 // Initialize express app
 const app = express();
 
@@ -38,6 +38,7 @@ app.get("/", (req, res) => {
 // Register routes
 app.use('/api/user', userRoute);
 app.use('/api/manager', managerRoute);
+app.use('/api/messStatus', messStatusRoutes);
 
 // Start the server
 const PORT = process.env.PORT || 3000;

@@ -1,44 +1,41 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // For redirecting after login
-import axios from 'axios';
-
+import { useAuth } from '../../context/AuthContext'; // Import the custom hook for authentication
 
 const LoginPage = () => {
   const [formData, setFormData] = useState({
     email: '',
-    password: ''
+    password: '',
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false); // Loading state
   const navigate = useNavigate(); // Hook for navigation
+  const { login } = useAuth(); // Get the login function from the Auth context
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Replace with your API URL
-    const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5000/api/user/login';
-
     setLoading(true); // Set loading to true before the API call
 
-    axios.post(apiUrl, formData)
-      .then((response) => {
-        const { token } = response.data;
-        localStorage.setItem('token', token);
+    try {
+      // Call the login function from AuthContext with the form data
+      await login(formData.email, formData.password);
 
-        setFormData({ email: '', password: '' }); // Clear input fields
-        navigate('/'); // Navigate to the dashboard or protected route after successful login
-      })
-      .catch((error) => {
-        setError('Invalid email or password');
-        console.error('There was an error logging in!', error);
-      })
-      .finally(() => {
-        setLoading(false); // Set loading to false after the API call
-      });
+      // Clear input fields after successful login
+      setFormData({ email: '', password: '' });
+
+      // Redirect to the dashboard or a protected route after successful login
+      navigate('/');
+    } catch (error) {
+      // If login fails, set an error message
+      setError('Invalid email or password');
+    } finally {
+      setLoading(false); // Set loading to false after the API call
+    }
   };
 
   return (
@@ -74,7 +71,11 @@ const LoginPage = () => {
             />
           </div>
           <div className="form-group mb-4">
-            <button type="submit" disabled={loading} className="w-full p-3 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400">
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full p-3 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            >
               {loading ? 'Logging in...' : 'Login'}
             </button>
           </div>

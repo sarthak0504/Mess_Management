@@ -8,4 +8,4 @@ const messStatusSchema = new mongoose.Schema({
     food:[{type:String}]
 });
 
-module.exports = mongoose.model('messStatus', messStatusSchema, 'messStatus');
+module.exports = mongoose.model('Mess', messStatusSchema);

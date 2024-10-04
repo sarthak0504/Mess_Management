@@ -9,11 +9,13 @@ const Registration = () => {
     username: '',
     password: '',
     confirmPassword: '',
-    role: ''
+    tokens: 0, // Default value for tokens
+    managerId: '', // You might want to populate this based on user role
+    feedbackId: '' // Similar handling might be needed for feedback
   };
 
   const [formData, setFormData] = useState(initialFormData);
- 
+  const [showDetails, setShowDetails] = useState(false); // Manage additional details visibility
 
   const handleRoleChange = (e) => {
     const { value } = e.target;
@@ -26,10 +28,6 @@ const Registration = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleDetailsChange = (section, field, value) => {
-    setFormData({ ...formData, [section]: { ...formData[section], [field]: value } });
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -39,14 +37,19 @@ const Registration = () => {
       return;
     }
 
-    // Filter out unnecessary role details based on the selected role
-    const filteredFormData = { ...formData };
-    if (formData.role !== 'student') delete filteredFormData.studentDetails;
-    if (formData.role !== 'faculty') delete filteredFormData.facultyDetails;
-    if (formData.role !== 'manager') delete filteredFormData.managerDetails;
-    if (formData.role !== 'staff') delete filteredFormData.staffDetails;
+    // Prepare data for submission
+    const dataToSubmit = {
+      fullName: formData.fullName,
+      email: formData.email,
+      phone: formData.phone,
+      username: formData.username,
+      password: formData.password,
+      tokens: formData.tokens,
+      managerId: formData.managerId, // Add managerId if relevant
+      feedbackId: formData.feedbackId  // Add feedbackId if relevant
+    };
 
-    axios.post('http://localhost:3000/api/user/', filteredFormData)
+    axios.post('http://localhost:3000/api/user/', dataToSubmit)
       .then((response) => {
         alert('Registration successful');
         setFormData(initialFormData); // Reset form after successful registration
@@ -134,6 +137,40 @@ const Registration = () => {
             />
           </div>
           <div className="mb-4">
+            <label htmlFor="tokens" className="block text-sm font-semibold text-gray-700">Tokens:</label>
+            <input
+              type="number"
+              id="tokens"
+              name="tokens"
+              required
+              onChange={handleChange}
+              value={formData.tokens}
+              className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+            />
+          </div>
+          <div className="mb-4">
+            <label htmlFor="managerId" className="block text-sm font-semibold text-gray-700">Manager ID:</label>
+            <input
+              type="text"
+              id="managerId"
+              name="managerId"
+              onChange={handleChange}
+              value={formData.managerId}
+              className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+            />
+          </div>
+          <div className="mb-4">
+            <label htmlFor="feedbackId" className="block text-sm font-semibold text-gray-700">Feedback ID:</label>
+            <input
+              type="text"
+              id="feedbackId"
+              name="feedbackId"
+              onChange={handleChange}
+              value={formData.feedbackId}
+              className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+            />
+          </div>
+          <div className="mb-4">
             <label htmlFor="role" className="block text-sm font-semibold text-gray-700">User Role:</label>
             <select
               id="role"
@@ -151,7 +188,6 @@ const Registration = () => {
             </select>
           </div>
 
-          
           <button type="submit" className="w-full bg-indigo-600 text-white p-2 rounded-md hover:bg-indigo-500">Register</button>
         </form>
       </div>

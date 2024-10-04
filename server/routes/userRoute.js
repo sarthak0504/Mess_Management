@@ -2,7 +2,7 @@ const express = require('express');
 const user = require('../model/user');
 const manager = require('../model/manager');
 const router = express.Router();
-
+const jwt = require('jsonwebtoken');
 
 router.post('/', async (req, res) => {
     try {
@@ -56,6 +56,14 @@ router.get('/', async (req, res) => {
       res.status(500).json({ message: error.message });
     }
   });
+  router.get('/:id',async(req,res)=>{
+    try {
+      const User = await user.findById(req.params.id);
+      res.json(User);
+    } catch (error) {
+      console.log(error);
+    }
+  })
   router.delete('/:id', async (req, res) => {
     try {
       const deletedUser = await user.findByIdAndDelete(req.params.id);
@@ -69,4 +77,30 @@ router.get('/', async (req, res) => {
     }
   });
   
+// Login Route
+router.post('/login', async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    const User = await user.findOne({ email });
+    if (!user) {
+      return res.status(400).json({ message: 'Invalid credentials' });
+    }
+
+   
+    if (password!==User.password) {
+      return res.status(400).json({ message: 'Invalid credentials' });
+    }
+
+    const token = jwt.sign({ userId: User._id }, process.env.JWT_SECRET , { expiresIn: '7d' });
+    res.cookie('token', token, { httpOnly: true, secure: true, maxAge: 30 * 24 * 60 * 60 * 1000 });
+    res.cookie('user', user, { httpOnly: true, secure: true, maxAge: 30 * 24 * 60 * 60 * 1000 });
+    res.json({ token, user });
+  } catch (error) {
+    res.status(500).send(error);
+    console.log(error);
+  }
+});
+
+
   module.exports = router;
