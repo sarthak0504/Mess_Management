@@ -9,12 +9,13 @@ import Feedback from './components/Feedback/Feedback.jsx';
 import Registration from './components/Registration/Registration.jsx';
 import LoginPage from './components/Login/Login.jsx';
 import MenuInventory from './components/MenuInventory/MenuInventory.jsx';
-import UserMenu from './components/MenuInventory/MenuInventory_user.jsx';
+
 
 import User from './components/User/User.jsx';
 import Layout from './layout.jsx';
 import './App.css';
 import ManagerStatus from './components/Status/ManagerStatus.jsx';
+import MenuInventoryUser from './components/MenuInventory/MenuInventory_user.jsx';
 
 function App() {
   return (
@@ -25,6 +26,8 @@ function App() {
             <Route index element={<Home />} />
             <Route path='/status' element={<Status />} />
             <Route path='/ManagerStatus' element={<ManagerStatus />} />
+            <Route path='/menu_inventory' element={  <MenuInventory />} />
+            <Route path='/menu_inventory_user' element={ <MenuInventoryUser />} />
 
             <Route path='/subscription' element={
               <ProtectedRoute> {/* Protect subscription route */}
@@ -38,16 +41,8 @@ function App() {
             } />
             <Route path='/register' element={<Registration />} />
             <Route path='/login' element={<LoginPage />} />
-            <Route path='/menu_inventory' element={
-              <ProtectedRoute> {/* Protect MenuInventory */}
-                <MenuInventory />
-              </ProtectedRoute>
-            } />
-            <Route path='/menu_inventory_user' element={
-              <ProtectedRoute> {/* Protect UserMenu */}
-                <UserMenu />
-              </ProtectedRoute>
-            } />
+           
+            
             <Route path='/user/:userid' element={
               <ProtectedRoute> {/* Protect individual user routes */}
                 <User />

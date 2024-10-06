@@ -65,6 +65,17 @@ export default function Header() {
                             </li>
                             <li>
                                 <NavLink
+                                    // to="/status"
+                                    to="/Status"
+                                    className={({ isActive }) =>
+                                        `block py-2 pr-4 pl-3 duration-200 ${isActive ? "text-orange-700" : "text-gray-700"} border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 hover:text-orange-700 lg:p-0`
+                                    }
+                                >
+                                    Status-user
+                                </NavLink>
+                            </li>
+                            <li>
+                                <NavLink
                                     to="/menu_inventory"
                                     // to="/menu_inventory_user"
                                     className={({ isActive }) =>
@@ -72,6 +83,17 @@ export default function Header() {
                                     }
                                 >
                                     Menu
+                                </NavLink>
+                            </li>
+                            <li>
+                                <NavLink
+                                    to="/menu_inventory_user"
+                                    // to="/menu_inventory_user"
+                                    className={({ isActive }) =>
+                                        `block py-2 pr-4 pl-3 duration-200 ${isActive ? "text-orange-700" : "text-gray-700"} border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 hover:text-orange-700 lg:p-0`
+                                    }
+                                >
+                                    Menu-user
                                 </NavLink>
                             </li>
                             <li>

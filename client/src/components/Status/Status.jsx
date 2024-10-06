@@ -1,89 +1,71 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
-export default function Staus() {
-    return (
-        <div className="min-h-screen bg-gray-100">
-          {/* Status Section */}
-          <section className="py-10 bg-white shadow-md mb-8 text-center">
-            <h1 className="text-4xl font-bold">Mess Status</h1>
-            <div className="mt-6">
-              <p className="text-lg">
-                Status: <span className="font-semibold text-green-500">Open</span>
-              </p>
-              <p className="text-lg mt-2">
-                Timings: <span className="font-semibold">12:00 PM - 2:00 PM, 7:00 PM - 9:00 PM</span>
-              </p>
-            </div>
-          </section>
-    
-          {/* Calendar Section */}
-        
-          {/* Menu Section */}
-          <section className="py-12 text-center">
-            <h1 className="text-3xl font-bold mb-8">Today's Menu</h1>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {/* Breakfast */}
-              <div className="bg-white p-6 rounded-lg shadow-lg">
-                <h2 className="text-2xl font-semibold mb-2">Breakfast</h2>
-                <p className="text-lg text-gray-600 mb-4">7:00 AM - 9:00 AM</p>
-                <ul id="breakfast-menu" className="list-none">
-                  {/* Breakfast items go here */}
-                </ul>
-              </div>
-    
-              {/* Lunch */}
-              <div className="bg-white p-6 rounded-lg shadow-lg">
-                <h2 className="text-2xl font-semibold mb-2">Lunch</h2>
-                <p className="text-lg text-gray-600 mb-4">12:00 PM - 2:00 PM</p>
-                <ul id="lunch-menu" className="list-none">
-                  {/* Lunch items go here */}
-                </ul>
-              </div>
-    
-              {/* Dinner */}
-              <div className="bg-white p-6 rounded-lg shadow-lg">
-                <h2 className="text-2xl font-semibold mb-2">Dinner</h2>
-                <p className="text-lg text-gray-600 mb-4">7:00 PM - 9:00 PM</p>
-                <ul id="dinner-menu" className="list-none">
-                  {/* Dinner items go here */}
-                </ul>
-              </div>
-            </div>
-          </section>
-    
-          {/* Admin Section */}
-          <section className="max-w-xl mx-auto my-12 p-8 bg-gray-100 rounded-lg shadow-md">
-            <h2 className="text-2xl font-semibold mb-6">Customize Menu</h2>
-            <form className="space-y-4">
-              <div>
-                <label htmlFor="meal-time" className="block text-lg font-medium mb-2">Meal Time</label>
-                <select
-                  id="meal-time"
-                  className="w-full border border-gray-300 px-4 py-2 rounded-md"
-                >
-                  <option value="breakfast">Breakfast</option>
-                  <option value="lunch">Lunch</option>
-                  <option value="dinner">Dinner</option>
-                </select>
-              </div>
-              <div>
-                <label htmlFor="menu-items" className="block text-lg font-medium mb-2">Menu Items</label>
-                <input
-                  type="text"
-                  id="menu-items"
-                  placeholder="Enter menu items separated by commas"
-                  className="w-full border border-gray-300 px-4 py-2 rounded-md"
-                />
-              </div>
-              <button
-                type="submit"
-                className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition duration-300"
-              >
-                Update Menu
-              </button>
-            </form>
-          </section>
+export default function MessStatusViewer() {
+  const [messStatus, setMessStatus] = useState('Closed'); // Track mess status
+  const [mealData, setMealData] = useState([]); // Meal timings data
+
+  // Fetch mess status and meal data on component mount
+  useEffect(() => {
+    axios.get('/api/status') // Fetch current mess status and meals
+      .then(response => {
+        const { status = 'Closed', meals = [] } = response.data; // Fallback to default values
+        setMessStatus(status);
+        setMealData(meals);
+      })
+      .catch(error => {
+        console.error('Error fetching mess data:', error);
+      });
+  }, []);
+
+  return (
+    <div className="min-h-screen bg-gray-100 px-4">
+      {/* Mess Status Section */}
+      <section className="py-10 bg-white shadow-md mb-8 text-center rounded-md">
+        <h1 className="text-4xl font-bold">Mess Status</h1>
+        <div className="mt-6">
+          <p className="text-lg">
+            Status: 
+            <span className={`font-semibold ml-2 ${messStatus === 'Open' ? 'text-green-500' : 'text-red-500'}`}>
+              {messStatus}
+            </span>
+          </p>
         </div>
-      );
-    };
-    
+      </section>
+
+      {/* Meal Times & Menu Section */}
+      <section className="max-w-6xl mx-auto my-12 p-8 bg-white rounded-lg shadow-md">
+        <h2 className="text-3xl font-semibold mb-6 text-center">Today's Meals</h2>
+        
+        {/* Meals Wrapper */}
+        <div className="flex flex-wrap justify-center gap-6">
+          {mealData.length > 0 ? (
+            mealData.map((meal, index) => (
+              <div 
+                key={index} 
+                className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 p-4 bg-gray-50 rounded-md shadow-md hover:shadow-lg transition-shadow duration-200 flex flex-col items-center"
+              >
+                <h3 className="text-xl font-bold mb-2 text-center">Meal Time: {meal.time}</h3>
+                <p className="text-lg text-center font-semibold mb-4">Menu Items:</p>
+
+                {/* Items Wrapper (boxed without bullet points) */}
+                <div className="flex flex-wrap justify-center gap-2">
+                  {meal.items.split(',').map((item, i) => (
+                    <div 
+                      key={i} 
+                      className="inline-block bg-blue-100 text-blue-800 px-4 py-2 rounded-md text-sm font-medium min-w-[100px] text-center"
+                    >
+                      {item.trim()}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))
+          ) : (
+            <p className="text-lg text-gray-500">No meal data available.</p>
+          )}
+        </div>
+      </section>
+    </div>
+  );
+}

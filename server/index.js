@@ -10,6 +10,7 @@ const userRoute = require('./routes/userRoute'); // Ensure this path is correct
 const managerRoute = require('./routes/managerRoute'); // Ensure this path is correct
 const messStatusRoutes = require('./routes/messStatusRoutes');
 const managerStatusRoutes = require('./routes/status');
+const inventoryRoutes = require('./routes/inventory');
 // Initialize express app
 const app = express();
 
@@ -41,6 +42,7 @@ app.use('/api/user', userRoute);
 app.use('/api/manager', managerRoute);
 app.use('/api/messStatus', messStatusRoutes);
 app.use('/api/status', managerStatusRoutes);
+app.use('/api/inventory', inventoryRoutes);
 
 // Start the server
 const PORT = process.env.PORT || 3000;
