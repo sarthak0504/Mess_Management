@@ -17,14 +17,7 @@ export default function Staus() {
           </section>
     
           {/* Calendar Section */}
-          <section className="py-6 text-center">
-            <h2 className="text-2xl font-semibold mb-4">Select Date</h2>
-            <input
-              type="date"
-              className="border border-gray-300 px-4 py-2 rounded-md text-lg"
-            />
-          </section>
-    
+        
           {/* Menu Section */}
           <section className="py-12 text-center">
             <h1 className="text-3xl font-bold mb-8">Today's Menu</h1>

@@ -9,6 +9,7 @@ const { config } = require('dotenv');
 const userRoute = require('./routes/userRoute'); // Ensure this path is correct
 const managerRoute = require('./routes/managerRoute'); // Ensure this path is correct
 const messStatusRoutes = require('./routes/messStatusRoutes');
+const managerStatusRoutes = require('./routes/status');
 // Initialize express app
 const app = express();
 
@@ -22,7 +23,7 @@ app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 app.use(cookieParser());
 
 // Connect to MongoDB
-const dbURI = 'mongodb+srv://baxidaksh2004:dyJ7ahVnmgpOSV8M@cluster1.ifj4u.mongodb.net'; // Use env variable or fallback
+const dbURI =  process.env.MONGO_URI ||  'mongodb+srv://baxidaksh2004:dyJ7ahVnmgpOSV8M@cluster1.ifj4u.mongodb.net/mess_management'; // Use env variable or fallback
 mongoose.connect(dbURI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -39,6 +40,7 @@ app.get("/", (req, res) => {
 app.use('/api/user', userRoute);
 app.use('/api/manager', managerRoute);
 app.use('/api/messStatus', messStatusRoutes);
+app.use('/api/status', managerStatusRoutes);
 
 // Start the server
 const PORT = process.env.PORT || 3000;

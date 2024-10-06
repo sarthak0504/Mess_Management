@@ -8,4 +8,4 @@ const feedbackSchema = new mongoose.Schema({
   submittedAt: { type: Date, default: Date.now },
 });
 
-module.exports = mongoose.model('Feedback', feedbackSchema, 'feedback');
+module.exports = mongoose.model('Feedback', feedbackSchema, 'feedback');

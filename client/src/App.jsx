@@ -10,9 +10,11 @@ import Registration from './components/Registration/Registration.jsx';
 import LoginPage from './components/Login/Login.jsx';
 import MenuInventory from './components/MenuInventory/MenuInventory.jsx';
 import UserMenu from './components/MenuInventory/MenuInventory_user.jsx';
+
 import User from './components/User/User.jsx';
 import Layout from './layout.jsx';
 import './App.css';
+import ManagerStatus from './components/Status/ManagerStatus.jsx';
 
 function App() {
   return (
@@ -22,6 +24,8 @@ function App() {
           <Route path='/' element={<Layout />}>
             <Route index element={<Home />} />
             <Route path='/status' element={<Status />} />
+            <Route path='/ManagerStatus' element={<ManagerStatus />} />
+
             <Route path='/subscription' element={
               <ProtectedRoute> {/* Protect subscription route */}
                 <Subscription />
