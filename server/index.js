@@ -11,6 +11,9 @@ const managerRoute = require('./routes/managerRoute'); // Ensure this path is co
 const messStatusRoutes = require('./routes/messStatusRoutes');
 const managerStatusRoutes = require('./routes/status');
 const inventoryRoutes = require('./routes/inventory');
+// const viewCartRoutes = require('./routes/viewCart');
+const registeredMessRoutes = require('./routes/RegisteredMess');
+const allMessRoutes = require('./routes/allMess');
 // Initialize express app
 const app = express();
 
@@ -43,6 +46,10 @@ app.use('/api/manager', managerRoute);
 app.use('/api/messStatus', messStatusRoutes);
 app.use('/api/status', managerStatusRoutes);
 app.use('/api/inventory', inventoryRoutes);
+// app.use('/api/cart', viewCartRoutes);
+app.use('/api/mess', registeredMessRoutes);
+app.use('/api/mess', allMessRoutes);
+
 
 // Start the server
 const PORT = process.env.PORT || 3000;

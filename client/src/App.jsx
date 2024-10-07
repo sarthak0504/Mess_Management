@@ -12,35 +12,38 @@ import MenuInventory from './components/MenuInventory/MenuInventory.jsx';
 
 
 import User from './components/User/User.jsx';
-import Layout from './layout.jsx';
+import Layout from './Layout.jsx';
+import LayoutManager from './LayoutManager.jsx';
 import './App.css';
 import ManagerStatus from './components/Status/ManagerStatus.jsx';
 import MenuInventoryUser from './components/MenuInventory/MenuInventory_user.jsx';
+import AdminDashboard from './components/Mess/Dashboard.jsx';
+import RegisterMess from './components/Mess/RegisterMess.jsx';
+// import ViewCart from './components/MenuInventory/ViewCart.js';
 
 function App() {
   return (
     <Router>
         <AuthProvider> {/* Wrap the entire app with AuthProvider to provide authentication context */}
         <Routes>
+
+          {/*Routes for the user*/}
           <Route path='/' element={<Layout />}>
             <Route index element={<Home />} />
             <Route path='/status' element={<Status />} />
-            <Route path='/ManagerStatus' element={<ManagerStatus />} />
-            <Route path='/menu_inventory' element={  <MenuInventory />} />
-            <Route path='/menu_inventory_user' element={ <MenuInventoryUser />} />
+            <Route path='/menu_inventory' element={ <MenuInventoryUser />} />
+            {/* <Route path='/viewCart' element={ <ViewCart />} /> */}
 
             <Route path='/subscription' element={
               <ProtectedRoute> {/* Protect subscription route */}
                 <Subscription />
               </ProtectedRoute>
             } />
-            <Route path='/feedback' element={
-              <ProtectedRoute> {/* Protect feedback route */}
-                <Feedback />
-              </ProtectedRoute>
-            } />
+            <Route path='/feedback' element={<Feedback />} />
             <Route path='/register' element={<Registration />} />
             <Route path='/login' element={<LoginPage />} />
+            <Route path='/mess' element={<AdminDashboard />} />
+            <Route path='/RegisterMess' element={<RegisterMess/>} />
            
             
             <Route path='/user/:userid' element={
@@ -48,7 +51,19 @@ function App() {
                 <User />
               </ProtectedRoute>
             } />
+
+
+
           </Route>
+
+
+             {/* Routes for managers */}
+             <Route path='/manager' element={<LayoutManager />}>
+            <Route path='/manager/status' element={<ManagerStatus />} />
+            <Route path='/manager/menu_inventory' element={<MenuInventory />} />
+          </Route>
+
+
         </Routes>
     </AuthProvider>
       </Router>
