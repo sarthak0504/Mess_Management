@@ -1,0 +1,27 @@
+[
+    {
+        "id": 1,
+        "name": "Sarthak Agrawal",
+        "image": "/dummyperson.jpeg"
+    },
+    {
+        "id": 2,
+        "name": "Daksh Baxi",
+        "image": "/dummyperson.jpeg"
+    },
+    {
+        "id": 3,
+        "name": "Vaibhav Singh",
+        "image": "/dummyperson.jpeg"
+    },
+    {
+        "id": 4,
+        "name": "Yash Jatav",
+        "image": "/dummyperson.jpeg"
+    },
+    {
+        "id": 5,
+        "name": "Prakhar Dangolia",
+        "image": "/dummyperson.jpeg"
+    }
+]
