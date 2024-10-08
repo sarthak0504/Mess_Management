@@ -23,7 +23,7 @@ function AboutUs() {
 
       {/* Description about the team */}
       <div className="text-center mt-6">
-        <p className="mt-3 text-lg text-gray-600 max-w-2xl mx-auto">
+        <p className="mt-3 text-lg text-gray-600 max-w-2xl mx-auto" style={{ textAlign: 'justify' }}>
          
 We are a dedicated team of students from SGSITS, driven by a passion for technology, innovation, and impactful solutions. United by a common goal, we collaborate to create projects that address real-world challenges while continuously advancing our skills and knowledge. Our focus is on fostering growth, both individually and collectively, as we push the boundaries of what’s possible through teamwork and cutting-edge innovation. With a commitment to excellence, we aim to make meaningful contributions to the tech community, consistently striving to achieve new milestones and inspire others in the process.
         </p>

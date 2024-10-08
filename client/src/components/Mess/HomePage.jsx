@@ -6,9 +6,12 @@ const HomePage = () => {
     <div className="container mx-auto px-6 py-12">
       {/* Hero Section */}
       <section className="text-center mb-16">
-        <h1 className="text-5xl font-bold mb-6 text-blue-700">
-          Welcome to Your Mess Management System
+        <h1 className="text-5xl font-bold mb-6 text-red-700">
+          Welcome to Thali Track
         </h1>
+        <h2 className="text-3xl font-bold mb-6 text-blue-700">
+          Mess Management System....
+        </h2>
         <p className="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
           Streamline your mess experience. Check real-time mess status, browse menus, order food, and subscribe to meal plans with just a click!
         </p>
@@ -63,13 +66,8 @@ const HomePage = () => {
           </p>
         </div>
 
-        {/* Event Planning (Example of another feature) */}
-        <div className="bg-gradient-to-r from-orange-500 to-red-600 text-white shadow-lg rounded-xl p-6 transform transition hover:scale-105">
-          <h2 className="text-2xl font-bold mb-4">Event Planning</h2>
-          <p className="text-md leading-relaxed">
-            Plan and manage mess events seamlessly with our event planning tools.
-          </p>
-        </div>
+       
+    
       </section>
     </div>
   );
