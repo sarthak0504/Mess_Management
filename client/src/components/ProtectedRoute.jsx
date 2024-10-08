@@ -8,7 +8,7 @@ const ProtectedRoute = ({ children }) => {
 
   if (!currentUser) {
     // If no current user, redirect to login page
-    return <Navigate to="/login" />;
+    return <Navigate to="/manager/login" />;
   }
 
   // Otherwise, render the child components (protected content)

@@ -22,6 +22,7 @@ import RegisterMess from './components/Mess/RegisterMess.jsx';
 import AdminLayout from './LayoutAdmin.jsx';
 import AboutUs from './components/Mess/AboutUs.jsx';
 import HomePage from './components/Mess/HomePage.jsx';
+import ManagerLogin from './components/Login/ManagerLogin.jsx';
 // import ViewCart from './components/MenuInventory/ViewCart.js';
 
 function App() {
@@ -56,10 +57,18 @@ function App() {
           </Route>
 
 
-             {/* Routes for managers */}
-             <Route path='/manager' element={<LayoutManager />}>
-            <Route path='/manager/status' element={<ManagerStatus />} />
-            <Route path='/manager/menu_inventory' element={<MenuInventory />} />
+          <Route path='/manager' element={<LayoutManager />}>
+            <Route path='/manager/login' element={<ManagerLogin />} />
+            <Route path='/manager/status/:managerId' element={
+             
+                <ManagerStatus />
+            
+            } />
+            <Route path='/manager/menu_inventory' element={
+              <ProtectedRoute> {/* Protect menu inventory route */}
+                <MenuInventory />
+              </ProtectedRoute>
+            } />
           </Route>
 
              {/*Routes for the admin*/}

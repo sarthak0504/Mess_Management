@@ -39,11 +39,35 @@ export const AuthProvider = ({ children }) => {
 
       setCurrentUser(userResponse.data);
       localStorage.setItem('user', JSON.stringify(userResponse.data));
-      navigate('/');
+      navigate(`/manager/status/${userId}`);
     } catch (error) {
       console.error('Login failed:', error);
     }
   };
+
+  const managerLogin = async(email,password)=>{
+    try {
+      const response = await axios.post('http://localhost:3000/api/mess/manager/login', {
+        email:email,
+        password:password
+      });
+      const { token } = response.data;
+      console.log(token);
+      // Decode the JWT to get user ID
+      const decodedToken = jwtDecode(token); // Decode using jwt-decode
+      const userId = decodedToken.userId;
+
+      const userResponse = await axios.get(`http://localhost:3000/api/mess/${userId}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+
+      setCurrentUser(userResponse.data);
+      localStorage.setItem('user', JSON.stringify(userResponse.data));
+      navigate(`/manager/status/${userId}`);
+    } catch (error) {
+      console.error('Login failed:', error);
+    }
+  }
 
   const logout = () => {
     setCurrentUser(null);
@@ -52,7 +76,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ currentUser, login, logout }}>
+    <AuthContext.Provider value={{ currentUser, login, logout,managerLogin }}>
       {children}
     </AuthContext.Provider>
   );

@@ -48,7 +48,7 @@ app.use('/api/status', managerStatusRoutes);
 app.use('/api/inventory', inventoryRoutes);
 // app.use('/api/cart', viewCartRoutes);
 app.use('/api/mess', registeredMessRoutes);
-app.use('/api/mess', allMessRoutes);
+
 
 
 // Start the server

@@ -1,6 +1,7 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const Mess = require('../model/RegisteredMess');
+const jwt = require('jsonwebtoken')
 const router = express.Router();
 
 // Function to generate messId
@@ -38,9 +39,7 @@ router.post('/register', async (req, res) => {
       return res.status(400).json({ msg: 'Mess already registered with this email' });
     }
 
-    // Hash password
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
+  
 
     // Generate unique messId
     const messId = generateMessId(name);
@@ -56,7 +55,7 @@ router.post('/register', async (req, res) => {
       contactEmail,
       contactPerson,
       contactPhone,
-      password: hashedPassword, // Save the hashed password
+      password, // Save the hashed password
       managerId, // Assign generated managerId
     });
 
@@ -73,5 +72,50 @@ router.post('/register', async (req, res) => {
     res.status(500).send('Server Error');
   }
 });
+
+
+// Route to get all registered messes
+router.get('/all', async (req, res) => {
+  try {
+    const messes = await Mess.find();
+    res.status(200).json(messes);
+  } catch (error) {
+    res.status(500).json({ msg: 'Server error', error });
+  }
+});
+
+router.get('/:messId',async(req,res)=>{
+  try {
+    const messes = await Mess.findById(req.params.messId);
+    res.status(200).json(messes);
+  } catch (error) {
+    res.status(500).json({ msg: 'Server error', error });
+  }
+})
+router.post('/manager/login', async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    const user = await Mess.findOne({ contactEmail:email });
+    if (!user) {
+      return res.status(400).json({ message: 'Invalid credentials' });
+    }
+
+   
+    
+    if (password!== user.password) {
+      return res.status(400).json({ message: 'incorrect password credenpatials' });
+    }
+
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET , { expiresIn: '7d' });
+    res.cookie('token', token, { httpOnly: true, secure: true, maxAge: 30 * 24 * 60 * 60 * 1000 });
+    res.cookie('user', user, { httpOnly: true, secure: true, maxAge: 30 * 24 * 60 * 60 * 1000 });
+    res.json({ token, user });
+  } catch (error) {
+    res.status(500).send(error);
+    console.log(error);
+  }
+});
+
 
 module.exports = router;
