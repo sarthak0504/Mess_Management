@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useAuth } from '../../context/AuthContext';
 
 
 const Feedback = () => {
@@ -8,11 +9,16 @@ const Feedback = () => {
   const [rating, setRating] = useState(0);
   const [submitted, setSubmitted] = useState(false);
 
-  const handleSubmit = (e) => {
+  const {currentUser}=useAuth()
+  const handleSubmit = async (e) => {
     e.preventDefault();
     // Handle feedback submission (send feedback, category, rating to the backend)
-    console.log({ feedback, category, rating });
+    const response = await axios.post("http://localhost:3000/api/feedback/submit",{
+      feedback,category,rating,
+      userId:currentUser._id
+    })
     setSubmitted(true);
+    
   };
 
   const handleRatingChange = (rate) => {

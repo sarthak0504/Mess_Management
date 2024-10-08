@@ -29,7 +29,7 @@ const LoginPage = () => {
       setFormData({ email: '', password: '' });
 
       // Redirect to the dashboard or a protected route after successful login
-      navigate('/');
+   
     } catch (error) {
       // If login fails, set an error message
       setError('Invalid email or password');
@@ -80,7 +80,7 @@ const LoginPage = () => {
             </button>
           </div>
           <div className="form-group text-center">
-            <p>Don't have an account? <a href="/register" className="text-blue-500 hover:underline">Register here</a></p>
+            <p>Don't have an account? <a href="/user/register" className="text-blue-500 hover:underline">Register here</a></p>
           </div>
         </form>
       </div>

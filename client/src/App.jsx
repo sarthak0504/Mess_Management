@@ -23,6 +23,8 @@ import AdminLayout from './LayoutAdmin.jsx';
 import AboutUs from './components/Mess/AboutUs.jsx';
 import HomePage from './components/Mess/HomePage.jsx';
 import ManagerLogin from './components/Login/ManagerLogin.jsx';
+import ManagerProtectedRoute from './components/ManagerProtectedRoute.jsx';
+import UserProtectedRoute from './components/ProtectedRoute.jsx';
 // import ViewCart from './components/MenuInventory/ViewCart.js';
 
 function App() {
@@ -34,15 +36,26 @@ function App() {
           
           {/*Routes for the user*/}
           <Route path='/user' element={<Layout />}>
-            <Route path='/user' index element={<Home />} />
-            <Route path='/user/status' element={<Status />} />
-            <Route path='/user/menu_inventory' element={ <MenuInventoryUser />} />
+            <Route path='/user/:userId' index element={<Home />} />
+            <Route path='/user/status' element={
+              <UserProtectedRoute>
+
+                <Status />
+              </UserProtectedRoute>
+              
+              } />
+            <Route path='/user/menu_inventory' element={ 
+              <UserProtectedRoute>
+                <MenuInventoryUser />
+              </UserProtectedRoute>
+            }
+               />
             {/* <Route path='/viewCart' element={ <ViewCart />} /> */}
 
             <Route path='/user/subscription' element={
-              <ProtectedRoute> {/* Protect subscription route */}
+               <UserProtectedRoute>
                 <Subscription />
-              </ProtectedRoute>
+               </UserProtectedRoute>
             } />
             <Route path='/user/feedback' element={<Feedback />} />
             <Route path='/user/register' element={<Registration />} />
@@ -60,14 +73,17 @@ function App() {
           <Route path='/manager' element={<LayoutManager />}>
             <Route path='/manager/login' element={<ManagerLogin />} />
             <Route path='/manager/status/:managerId' element={
-             
-                <ManagerStatus />
+             <ManagerProtectedRoute>
+
+               <ManagerStatus />
+             </ManagerProtectedRoute>
             
             } />
             <Route path='/manager/menu_inventory' element={
-              <ProtectedRoute> {/* Protect menu inventory route */}
+               <ManagerProtectedRoute>
+ {/* Protect menu inventory route */}
                 <MenuInventory />
-              </ProtectedRoute>
+                </ManagerProtectedRoute>
             } />
           </Route>
 

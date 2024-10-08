@@ -3,18 +3,18 @@ import { Link, NavLink } from 'react-router-dom';
 import  {useAuth}  from '../../context/AuthContext'; // Import useAuth
 
 export default function HeaderManager() {
-    const { currentUser, logout } = useAuth(); // Get user and logout function
-
+    const { currentManager,managerLogout } = useAuth(); // Get user and logout function
+    
     return (
         <header className="shadow sticky z-50 top-0">
             <nav className="bg-slate-300 border-gray-200 px-4 lg:px-6 py-2.5">
                 <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
                     <div className="flex items-center lg:order-2">
-                        {currentUser ? (
+                        {currentManager ? (
                             <>
-                                <span className="text-gray-800 mr-4">Hello, {currentUser.username}</span>
+                                <span className="text-gray-800 mr-4">Hello, {currentManager.contactPerson}</span>
                                 <button
-                                    onClick={logout}
+                                    onClick={managerLogout}
                                     className="text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 focus:outline-none"
                                 >
                                     Logout
@@ -23,16 +23,10 @@ export default function HeaderManager() {
                         ) : (
                             <>
                                 <Link
-                                    to="/login"
+                                    to="/manager/login"
                                     className="text-gray-800 hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 focus:outline-none"
                                 >
                                     Log in
-                                </Link>
-                                <Link
-                                    to="/register"
-                                    className="text-white bg-orange-700 hover:bg-orange-800 focus:ring-4 focus:ring-orange-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 focus:outline-none"
-                                >
-                                    Get started
                                 </Link>
                             </>
                         )}

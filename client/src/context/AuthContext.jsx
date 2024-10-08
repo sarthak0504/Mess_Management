@@ -12,6 +12,7 @@ export const useAuth = () => {
 
 export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
+  const [currentManager,setCurrentManager]=useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -39,7 +40,7 @@ export const AuthProvider = ({ children }) => {
 
       setCurrentUser(userResponse.data);
       localStorage.setItem('user', JSON.stringify(userResponse.data));
-      navigate(`/manager/status/${userId}`);
+      navigate(`/user/${userId}`);
     } catch (error) {
       console.error('Login failed:', error);
     }
@@ -61,22 +62,26 @@ export const AuthProvider = ({ children }) => {
         headers: { Authorization: `Bearer ${token}` }
       });
 
-      setCurrentUser(userResponse.data);
-      localStorage.setItem('user', JSON.stringify(userResponse.data));
+      setCurrentManager(userResponse.data);
       navigate(`/manager/status/${userId}`);
     } catch (error) {
       console.error('Login failed:', error);
     }
   }
 
-  const logout = () => {
+  const managerLogout = () => {
+    localStorage.removeItem('token');
+    setCurrentManager(null);
+    navigate('/manager/login');
+  };
+  const userLogout = () => {
+    localStorage.removeItem('token');
     setCurrentUser(null);
-    localStorage.removeItem('user');
-    navigate('/login');
+    navigate('/user/login');
   };
 
   return (
-    <AuthContext.Provider value={{ currentUser, login, logout,managerLogin }}>
+    <AuthContext.Provider value={{ currentUser, login, managerLogin,currentManager,managerLogout,userLogout }}>
       {children}
     </AuthContext.Provider>
   );

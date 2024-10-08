@@ -13,6 +13,7 @@ const managerStatusRoutes = require('./routes/status');
 const inventoryRoutes = require('./routes/inventory');
 // const viewCartRoutes = require('./routes/viewCart');
 const registeredMessRoutes = require('./routes/RegisteredMess');
+const feedback = require('./routes/feedback')
 const allMessRoutes = require('./routes/allMess');
 // Initialize express app
 const app = express();
@@ -46,6 +47,7 @@ app.use('/api/manager', managerRoute);
 app.use('/api/messStatus', messStatusRoutes);
 app.use('/api/status', managerStatusRoutes);
 app.use('/api/inventory', inventoryRoutes);
+app.use('/api/feedback',feedback)
 // app.use('/api/cart', viewCartRoutes);
 app.use('/api/mess', registeredMessRoutes);
 

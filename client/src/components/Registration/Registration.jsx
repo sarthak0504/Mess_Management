@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 const Registration = () => {
@@ -9,13 +9,25 @@ const Registration = () => {
     username: '',
     password: '',
     confirmPassword: '',
-    tokens: 0, // Default value for tokens
-    managerId: '', // You might want to populate this based on user role
-    feedbackId: '' // Similar handling might be needed for feedback
+    messId: '', // Add a field for selected mess
   };
-
+  
+  const [mess, setMess] = useState([]);
   const [formData, setFormData] = useState(initialFormData);
   const [showDetails, setShowDetails] = useState(false); // Manage additional details visibility
+
+  useEffect(() => {
+    const fetchMess = async () => {
+      try {
+        const response = await axios.get('http://localhost:3000/api/mess/all');
+        setMess(response.data); // Set fetched mess data
+      } catch (error) {
+        console.error('There was an error fetching the mess data!', error);
+      }
+    };
+
+    fetchMess();
+  }, []);
 
   const handleRoleChange = (e) => {
     const { value } = e.target;
@@ -44,9 +56,7 @@ const Registration = () => {
       phone: formData.phone,
       username: formData.username,
       password: formData.password,
-      tokens: formData.tokens,
-      managerId: formData.managerId, // Add managerId if relevant
-      feedbackId: formData.feedbackId  // Add feedbackId if relevant
+      messId: formData.messId, // Include selected mess ID
     };
 
     axios.post('http://localhost:3000/api/user/', dataToSubmit)
@@ -136,55 +146,24 @@ const Registration = () => {
               className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
             />
           </div>
+
+          {/* Select dropdown for mess */}
           <div className="mb-4">
-            <label htmlFor="tokens" className="block text-sm font-semibold text-gray-700">Tokens:</label>
-            <input
-              type="number"
-              id="tokens"
-              name="tokens"
-              required
-              onChange={handleChange}
-              value={formData.tokens}
-              className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-            />
-          </div>
-          <div className="mb-4">
-            <label htmlFor="managerId" className="block text-sm font-semibold text-gray-700">Manager ID:</label>
-            <input
-              type="text"
-              id="managerId"
-              name="managerId"
-              onChange={handleChange}
-              value={formData.managerId}
-              className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-            />
-          </div>
-          <div className="mb-4">
-            <label htmlFor="feedbackId" className="block text-sm font-semibold text-gray-700">Feedback ID:</label>
-            <input
-              type="text"
-              id="feedbackId"
-              name="feedbackId"
-              onChange={handleChange}
-              value={formData.feedbackId}
-              className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-            />
-          </div>
-          <div className="mb-4">
-            <label htmlFor="role" className="block text-sm font-semibold text-gray-700">User Role:</label>
+            <label htmlFor="messId" className="block text-sm font-semibold text-gray-700">Select Mess:</label>
             <select
-              id="role"
-              name="role"
+              id="messId"
+              name="messId"
               required
-              onChange={handleRoleChange}
-              value={formData.role}
+              onChange={handleChange}
+              value={formData.messId}
               className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
             >
-              <option value="" disabled>Select your role</option>
-              <option value="student">Student</option>
-              <option value="faculty">Faculty</option>
-              <option value="manager">Mess Manager</option>
-              <option value="staff">Mess Staff</option>
+              <option value="">Select a mess</option>
+              {mess.map((item) => (
+                <option key={item.id} value={item.id}>
+                  {item.name} {/* Replace with appropriate property for display */}
+                </option>
+              ))}
             </select>
           </div>
 

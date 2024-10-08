@@ -29,7 +29,7 @@ const ManagerLogin = () => {
       setFormData({ email: '', password: '' });
 
       // Redirect to the dashboard or a protected route after successful login
-      navigate('/');
+      
     } catch (error) {
       // If login fails, set an error message
       setError('Invalid email or password');

@@ -1,36 +1,45 @@
 const express = require('express');
 const user = require('../model/user');
 const manager = require('../model/manager');
+const RegisteredMess = require('../model/RegisteredMess');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
 
+const generateUserrId = (userId) => {
+  const uniqueSuffix = Math.floor(1000 + Math.random() * 9000); // Generate random 4-digit number
+  return `${userId}_mgr_${uniqueSuffix}`; // Create managerId based on messId
+};
+
 router.post('/', async (req, res) => {
-    try {
-      const { fullName, email, phone, username, password, tokens, managerId } = req.body;
+  try {
+      const { fullName, email, phone, username, password, messId } = req.body;
+
+      // Find the mess by its name to get the ObjectId
+      const mess = await RegisteredMess.findOne({ name: messId }); // Assuming 'name' is the field in your RegisteredMess schema
       
+      if (!mess) {
+          return res.status(400).json({ message: 'Mess not found' });
+      }
+    const userId =   generateUserrId(username)
+
       // Create a new user document
       const newUser = new user({
-        fullName,
-        email,
-        phone,
-        username,
-        password,
-        tokens,
-        managerId,
+          fullName,
+          email,
+          phone,
+          username,
+          password,
+          messId: mess._id, // Use the ObjectId here,
+          userId
       });
-
-
 
       // Save user to database
       const savedUser = await newUser.save();
-      const Manager = manager.findById(managerId);
-      Manager.userIds.push(savedUser._id);
-      await Manager.save(); 
       res.status(201).json(savedUser);
-    } catch (error) {
+  } catch (error) {
       res.status(500).json({ message: error.message });
-    }
-  });
+  }
+});
 
   // Get all users
 router.get('/', async (req, res) => {

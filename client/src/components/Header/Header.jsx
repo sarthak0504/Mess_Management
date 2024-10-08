@@ -3,7 +3,7 @@ import { Link, NavLink } from 'react-router-dom';
 import  {useAuth}  from '../../context/AuthContext'; // Import useAuth
 
 export default function Header() {
-    const { currentUser, logout } = useAuth(); // Get user and logout function
+    const { currentUser, userLogout } = useAuth(); // Get user and logout function
 
     return (
         <header className="shadow sticky z-50 top-0">
@@ -14,7 +14,7 @@ export default function Header() {
                             <>
                                 <span className="text-gray-800 mr-4">Hello, {currentUser.username}</span>
                                 <button
-                                    onClick={logout}
+                                    onClick={userLogout}
                                     className="text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 focus:outline-none"
                                 >
                                     Logout
@@ -23,13 +23,13 @@ export default function Header() {
                         ) : (
                             <>
                                 <Link
-                                    to="/login"
+                                    to="/user/login"
                                     className="text-gray-800 hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 focus:outline-none"
                                 >
                                     Log in
                                 </Link>
                                 <Link
-                                    to="/register"
+                                    to="/user/register"
                                     className="text-white bg-orange-700 hover:bg-orange-800 focus:ring-4 focus:ring-orange-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 focus:outline-none"
                                 >
                                     Get started
@@ -76,7 +76,7 @@ export default function Header() {
                             </li>
                             <li>
                                 <NavLink
-                                    to="/subscription"
+                                    to="/user/subscription"
                                     className={({ isActive }) =>
                                         `block py-2 pr-4 pl-3 duration-200 ${isActive ? "text-orange-700" : "text-gray-700"} border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 hover:text-orange-700 lg:p-0`
                                     }
@@ -86,7 +86,7 @@ export default function Header() {
                             </li>
                             <li>
                                 <NavLink
-                                    to="/feedback"
+                                    to="/user/feedback"
                                     className={({ isActive }) =>
                                         `block py-2 pr-4 pl-3 duration-200 ${isActive ? "text-orange-700" : "text-gray-700"} border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 hover:text-orange-700 lg:p-0`
                                     }
