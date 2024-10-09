@@ -111,5 +111,37 @@ router.post('/login', async (req, res) => {
   }
 });
 
+router.put('/updateTokens/subscription/:userId',async(req,res)=>{
+  try {
+    const {day}=req.body;
+      const oldUser = await user.findById(req.params.userId)
+    if(day===1){
+      const tokens = oldUser.tokens+1;
+      const User = await user.findByIdAndUpdate(req.params.userId,{
+        tokens:tokens
+      },{new:true})  
+      res.status(200).json({ message: 'Tokens updated successfully' });
+    }
+    if(day===30){
+      const tokens = oldUser.tokens+30;
+      const User = await user.findByIdAndUpdate(req.params.userId,{
+        tokens:tokens
+      },{new:true})  
+      res.status(200).json({ message: 'Tokens updated successfully' });
+    }
+    if(day===60){
+      const tokens = oldUser.tokens+60;
+      const User = await user.findByIdAndUpdate(req.params.userId,{
+        tokens:tokens
+      },{new:true})  
+      res.status(200).json({ message: 'Tokens updated successfully' });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+})
+
+
+
 
   module.exports = router;

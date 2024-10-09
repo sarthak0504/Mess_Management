@@ -37,6 +37,7 @@ const RegisteredMessSchema = new Schema({
     required: true,
     unique: true
   },
+
 });
 
 module.exports = mongoose.model('RegisteredMess', RegisteredMessSchema);

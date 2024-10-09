@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
+import axios from 'axios';
+import { useAuth } from '../../context/AuthContext';
 
 export default function Subscription() {
-  // Define state for selected plan and payment method
+  // Define state for selected plan, payment method, and userId
   const [selectedPlan, setSelectedPlan] = useState('');
   const [paymentMethod, setPaymentMethod] = useState('');
-
+   // Set the userId here
+  const {currentUser}=useAuth();
   // Handle plan selection
   const handlePlanSelect = (plan) => {
     setSelectedPlan(plan);
@@ -16,10 +19,36 @@ export default function Subscription() {
   };
 
   // Handle form submission
-  const handlePaymentSubmit = () => {
-    // Logic to handle payment submission
-    console.log('Selected Plan:', selectedPlan);
-    console.log('Selected Payment Method:', paymentMethod);
+  const handlePaymentSubmit = async () => {
+    // Determine the number of days based on the selected plan
+    let day;
+    switch (selectedPlan) {
+      case 'basic':
+        day = 1;
+        break;
+      case 'premium':
+        day = 30;
+        break;
+      case 'deluxe':
+        day = 60;
+        break;
+      default:
+        day = 0;
+    }
+
+    if (day) {
+      try {
+        const response = await axios.put(`http://localhost:3000/api/user/updateTokens/subscription/${currentUser._id}`, {
+          day: day
+        });
+
+        console.log('Payment successful:', response.data);
+        alert(response.data.message); // Display a success message
+      } catch (error) {
+        console.error('Error processing payment:', error);
+        alert('An error occurred while processing the payment.');
+      }
+    }
   };
 
   return (

@@ -36,26 +36,31 @@ function App() {
           
           {/*Routes for the user*/}
           <Route path='/user' element={<Layout />}>
-            <Route path='/user/:userId' index element={<Home />} />
+            <Route path='/user' index element={
+
+
+                <Home />
+         
+              } />
             <Route path='/user/status' element={
-              <UserProtectedRoute>
+             
 
                 <Status />
-              </UserProtectedRoute>
+             
               
               } />
             <Route path='/user/menu_inventory' element={ 
-              <UserProtectedRoute>
+              
                 <MenuInventoryUser />
-              </UserProtectedRoute>
+             
             }
                />
             {/* <Route path='/viewCart' element={ <ViewCart />} /> */}
 
             <Route path='/user/subscription' element={
-               <UserProtectedRoute>
+               
                 <Subscription />
-               </UserProtectedRoute>
+             
             } />
             <Route path='/user/feedback' element={<Feedback />} />
             <Route path='/user/register' element={<Registration />} />

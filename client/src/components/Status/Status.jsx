@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useAuth } from '../../context/AuthContext';
 
 export default function MessStatusViewer() {
   const [messStatus, setMessStatus] = useState('Closed'); // Track mess status
   const [mealData, setMealData] = useState([]); // Meal timings data
-
+  const {currentUser}=useAuth();
   // Fetch mess status and meal data on component mount
   useEffect(() => {
     axios.get('/api/status') // Fetch current mess status and meals
@@ -29,6 +30,14 @@ export default function MessStatusViewer() {
             <span className={`font-semibold ml-2 ${messStatus === 'Open' ? 'text-green-500' : 'text-red-500'}`}>
               {messStatus}
             </span>
+          </p>
+        </div>
+      </section>
+      <section className="py-10 bg-white shadow-md mb-8 text-center rounded-md">
+        <h1 className="text-4xl font-bold">Mess Status</h1>
+        <div className="mt-6">
+          <p className="text-lg">
+      No.of tokens:{currentUser.tokens}
           </p>
         </div>
       </section>
